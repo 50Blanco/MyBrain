@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    body{
+        background-color: black;
+        width: 100%;
+    }
+    
+    #grid{
+        width: 1000px;
+    height: 6em;
+    margin-left: 10%;
+        margin-top: 5%;
+        display: grid;
+        grid-template-rows: 65% 65% 65% 65% 65% 65%;
+        grid-template-columns: 5% 5% 5% 5%;
+        grid-template-areas: 
+        "screen1 screen1 screen1 screen1"
+        "delete delete divide multiply1"
+        "num7 num8 num9 minus"
+        "num4 num5 num6 plus"
+        "num1 num2 num3 plus"
+        "num0 num00 point equal";
+    }
+    
+    #screen{
+        grid-area: screen1;
+        background-color: rgb(209, 197, 209);
+    }
+    
+    #delete{
+        grid-area: delete;
+        background-color: crimson;
+    }
+    
+    #multiply{
+        grid-area: multiply1;
+        background-color: rgb(32, 37, 37);
+        color: thistle;
+    }
+    
+    #divide{
+        grid-area: divide;
+        background-color: rgb(32, 37, 37);
+        color: thistle;
+    }
+    
+    #num7{
+        grid-area: num7;
+        background-color: rgb(32, 37, 37);
+        color: thistle;
+    }
+    
+    #num8{
+        grid-area: num8;
+        background-color: rgb(32, 37, 37);
+        color: thistle;
+    }
+    
+    #num9{
+        grid-area: num9;
+        background-color: rgb(32, 37, 37);
+        color: thistle;
+    }
+    
+    #minus{
+        grid-area: minus;
+        background-color: rgb(32, 37, 37);
+        color: thistle;
+    }
+    
+    #num4{
+        grid-area: num4;
+        background-color: rgb(32, 37, 37);
+        color: thistle;
+    }
+    
+    #num5{
+        grid-area: num5;
+        background-color: rgb(32, 37, 37);
+        color: thistle;
+    }
+    
+    #num6{
+        grid-area: num6;
+        background-color: rgb(32, 37, 37);
+        color: thistle;
+    }
+    
+    #plus{
+        grid-area: plus;
+        background-color: rgb(32, 37, 37);
+        color: thistle;
+    }
+    
+    #num1{
+        grid-area: num1;
+        background-color: rgb(32, 37, 37);
+        color: thistle;
+    }
+    
+    #num2{
+        grid-area: num2;
+        background-color: rgb(32, 37, 37);
+        color: thistle;
+    }
+    
+    #num3{
+        grid-area: num3;
+        background-color: rgb(32, 37, 37);
+        color: thistle;
+    }
+    
+    #num0{
+        grid-area: num00;
+        background-color: rgb(32, 37, 37);
+        color: thistle;
+    }
+    
+    #num00{
+        grid-area: num0;
+        background-color: rgb(32, 37, 37);
+        color: thistle;
+    }
+    
+    #point{
+        grid-area: point;
+        background-color: rgb(32, 37, 37);
+        color: thistle;
+    }
+    
+    #equal{
+        grid-area: equal;
+        background-color: rgb(32, 37, 37);
+        color: thistle;
+    }
+    </style>
+    <script>var sol = 0;
+
+        var typeOfCalc = 0;
+        
+        function addNum(add){
+            var screen = document.getElementById("screen");
+            if(sol === 1){screen.innerHTML = ""; sol = 0;}
+            screen.append(add);
+        }
+        
+        function deleteAll(){
+            var screen = document.getElementById("screen");
+            screen.innerHTML = "";
+        }
+        
+        function addSign(addSignNum){
+            var screen = document.getElementById("screen");
+            if(sol === 1){screen.innerHTML = ""; sol = 0;}
+            switch(addSignNum){
+                case 1: screen.append(".");
+                        typeOfCalc = 1;
+                break;
+        
+                case 2: screen.append("*");
+                        typeOfCalc = 2;
+                break;
+        
+                case 3: screen.append("/");
+                        typeOfCalc = 3;
+                break;
+        
+                case 4: screen.append("+");
+                        typeOfCalc = 4;
+                break;
+        
+                case 5: screen.append("-");
+                        typeOfCalc = 5;
+                break;
+            }
+        }
+        
+        function calculate(){
+            var screen = document.getElementById("screen");
+            var ScreenInner = screen.innerHTML;
+            screen.innerHTML = "";
+            screen.append(eval(ScreenInner));
+            sol++;
+        }</script>
+    <title>Calculator</title>
+</head>
+<body>
+    <div id="grid">
+        <div id="screen">      </div>
+
+        <button id="delete" onclick="deleteAll()">C</button>
+        <button id="divide" onclick="addSign(3)">/</button>
+        <button id="multiply" onclick="addSign(2)">*</button>
+
+        <button id="num7" onclick="addNum(7)">7</button>
+        <button id="num8" onclick="addNum(8)">8</button>
+        <button id="num9" onclick="addNum(9)">9</button>
+        <button id="minus" onclick="addSign(5)">-</button>
+
+        <button id="num4" onclick="addNum(4)">4</button>
+        <button id="num5" onclick="addNum(5)">5</button>
+        <button id="num6" onclick="addNum(6)">6</button>
+        <button id="plus" onclick="addSign(4)">+</button>
+
+        <button id="num1" onclick="addNum(1)">1</button>
+        <button id="num2" onclick="addNum(2)">2</button>
+        <button id="num3" onclick="addNum(3)">3</button>
+
+        <button id="num0" onclick="addNum(0)">0</button>
+        <button id="num00" onclick="addNum('00')">00</button>
+        <button id="point" onclick="addSign(1)">.</button>
+        <button id="equal" onclick="calculate()">=</button>
+    </div>
+</body>
+</html>

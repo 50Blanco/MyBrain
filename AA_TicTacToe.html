@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TicTacToe</title>
+    <style>
+        #Feld{
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: 150px 150px 150px;
+    grid-template-areas: 
+    "first" "second" "third"
+    "fourth" "fith" "sixth"
+    "seventh" "eighth" "nineth";
+    gap: 2px;
+}
+
+#first{
+    grid-area: "first";
+}
+#second{
+    grid-area: "second";
+}
+#third{
+    grid-area: "third";
+}
+
+#fourth{
+    grid-area: "fourth";
+}
+#fith{
+    grid-area: "fith";
+}
+#sixth{
+    grid-area: "sixth";
+}
+
+#seventh{
+    grid-area: "seventh";
+}
+#eighth{
+    grid-area: "eighth";
+}
+#nineth{
+    grid-area: "nineth";
+}
+
+.col{
+    background-color: aquamarine;
+}
+    </style>
+    
+</head>
+<body>
+    <div id="Feld">
+        <div id="first" class="col"></div>
+        <div id="second" class="col"></div>
+        <div id="third" class="col"></div>
+
+        <div id="fourth" class="col"></div>
+        <div id="fith" class="col"></div>
+        <div id="sixth" class="col"></div>
+
+        <div id="seventh" class="col"></div>
+        <div id="eighth" class="col"></div>
+        <div id="nineth" class="col"></div>
+    </div>
+    <script>
+        const A1 = document.getElementById('first');
+const A2 = document.getElementById('second');
+const A3 = document.getElementById('third');
+
+const A4 = document.getElementById('fourth');
+const A5 = document.getElementById('fith');
+const A6 = document.getElementById('sixth');
+
+const A7 = document.getElementById('seventh');
+const A8 = document.getElementById('eighth');
+const A9 = document.getElementById('nineth');
+//Die ganzen Felder
+
+let turn = 0; //wer drann ist
+var play = true;
+
+var playBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0]; //das Spielfeld
+var ran;
+var text;
+
+var divs = [A1, A2, A3, A4, A5, A6, A7, A8, A9]; //array mit den Divs
+for(let i = 0; i < divs.length; i++){
+    divs[i].addEventListener("click", function(){//jedem Block wird ein Eventlistener gegeben
+        if(play == true){
+        if(playBoard[i] == 0){//wenn das Feld noch da ist
+            yourTurn(i); //bei "click" sollen die was machen
+            turn++;
+            console.log(turn);
+            play = false;
+            if(turn >= 9){
+                resetGame(); 
+                play = true;
+                alert("unentschieden!");
+            }
+            setTimeout(function(){
+                turn++;
+                botTurn(); // der Bot ist dran
+                console.log(turn);
+            } ,500);
+            
+        }
+        }
+    });
+}
+
+function yourTurn(turn){ //wenn man selbst dran ist
+    divs[turn].style.backgroundColor = "red"; //hintergrund soll rot werden
+    playBoard[turn] = 1; //das FEld wird "1" sein
+ 
+    oneWin(3); //hab ich gewonnen?
+    turn++;
+}
+
+
+function botTurn(){
+    if(play == false){
+            ran = Math.floor(Math.random() * 9);
+            seeLines(2);
+            seeRows(2);
+            seeDiagonal(2);
+        if(playBoard[ran] == 0 ){
+            playBoard[ran] = 10;
+            divs[ran].style.backgroundColor = "yellow";
+            oneWin(30);
+        }else{
+            botTurn();
+        }
+        
+        play = true;
+    }
+}
+
+function seeLines(a){
+    for(let i = 0; i < 9; i = i + 3){ 
+        if(playBoard[i] + playBoard[i+1] + playBoard[i+2] == a){ //wenn eine reihe fast fertig ist
+            for(let k = 0; k < 3; k++){
+                if(playBoard[k + i] == 0){
+                    ran = k + i;
+                }
+            }
+        }
+    }
+}
+
+function seeRows(a){
+    for(let j = 0; j < 3; j++){ 
+        if(playBoard[j] + playBoard[j+3] + playBoard[j+6] == a){ // wenn ein balken fast fertig ist
+            let js = [j, j+3, j+6];
+            for(let m = 0; m < 3; m++){
+                if(playBoard[js[m]] == 0){
+                    ran = js[m];
+                }
+            }
+        }
+    }
+}
+
+function seeDiagonal(a){
+    if(playBoard[0] + playBoard[4] + playBoard[8] == a){
+            let jk = [0, 4, 8];
+            for(let n = 0; n < 3; n++){
+                if(playBoard[jk[n]] == 0){
+                    ran = jk[n];
+                }
+            }
+    }
+
+    if(playBoard[2] + playBoard[4] + playBoard[6] == a){
+        let ja = [2, 4, 6];
+        for(let o = 0; o < 3; o++){
+            if(playBoard[ja[o]] == 0){
+                ran = ja[o];
+            }
+        }
+    }
+}
+
+
+function oneWin(b){
+    text = "";
+    if(b == 3){text = "you win";}
+    if(b == 30){text = "you lose";}
+
+    for(let j = 0; j < 3; j++){ 
+        if(playBoard[j] + playBoard[j+3] + playBoard[j+6] == b){ // wenn ein balken fast fertig ist
+        alert(text);
+        resetGame();
+        }
+    }
+
+    if(playBoard[0] + playBoard[4] + playBoard[8] == b){
+        alert(text);
+        resetGame();
+    }
+
+    if(playBoard[2] + playBoard[4] + playBoard[6] == b){
+        alert(text);
+        resetGame();
+    }
+
+    for(let i = 0; i < 9; i = i + 3){ 
+        if(playBoard[i] + playBoard[i+1] + playBoard[i+2] == b){ //wenn eine reihe fast fertig ist
+            alert(text);
+            resetGame();
+        }
+    }
+}
+
+function resetGame(){
+    for(let i = 0; i < divs.length; i++){
+        divs[i].style.backgroundColor = "aquamarine";
+        playBoard[i] = 0;
+    }
+    turn = 0;
+}
+    </script>
+</body>
+</html>
